@@ -636,9 +636,15 @@ function handleSubmit() {
   btn.disabled = true;
 
   window.location.assign(
-    STRIPE_PAYMENT_LINK
-    + '?prefilled_email=' + encodeURIComponent(email)
-    + '&client_reference_id=' + encodeURIComponent(ref)
+    STRIPE_PAYMENT_LINK + '?' + [
+      'prefilled_email='       + encodeURIComponent(email),
+      'client_reference_id='  + encodeURIComponent(ref),
+      'metadata[name]='       + encodeURIComponent(name),
+      'metadata[phone]='      + encodeURIComponent(form.querySelector('[name="phone"]').value.trim()),
+      'metadata[team]='       + encodeURIComponent(form.querySelector('[name="team"]').value.trim()),
+      'metadata[age_bracket]='+ encodeURIComponent(form.querySelector('[name="age_bracket"]').value),
+      'metadata[event]='      + encodeURIComponent(eventValue),
+    ].join('&')
   );
 }
 
