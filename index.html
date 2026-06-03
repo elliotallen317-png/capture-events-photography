@@ -439,9 +439,15 @@ footer span{color:var(--gold);}
         <div class="form-group"><label>Phone number</label><input type="tel" name="phone" placeholder="07700 900000"/></div>
         <div class="form-group"><label>Team / club name</label><input type="text" name="team" placeholder="e.g. Leicester City U9s"/></div>
       </div>
-      <div class="form-group">
-        <label>Approximate number of players</label>
-        <select name="players"><option value="">Select...</option><option>Under 10 players</option><option>10–15 players</option><option>16–20 players</option><option>20+ players</option></select>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Approximate number of players</label>
+          <select name="players"><option value="">Select...</option><option>Under 10 players</option><option>10–15 players</option><option>16–20 players</option><option>20+ players</option></select>
+        </div>
+        <div class="form-group">
+          <label>Team age bracket</label>
+          <select name="age_bracket"><option value="">Select...</option><option>U6</option><option>U7</option><option>U8</option><option>U9</option><option>U10</option><option>U11</option><option>U12</option><option>U13</option><option>U14</option></select>
+        </div>
       </div>
       <div class="form-group">
         <label>Your role</label>
@@ -616,6 +622,7 @@ function handleSubmit() {
       phone:     form.querySelector('[name="phone"]').value.trim(),
       team:      form.querySelector('[name="team"]').value.trim(),
       players:   form.querySelector('[name="players"]').value,
+      age_bracket: form.querySelector('[name="age_bracket"]').value,
       role:      form.querySelector('[name="role"]').value,
       event:     eventValue,
       reference: ref,
