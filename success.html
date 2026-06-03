@@ -151,6 +151,7 @@ footer span{color:var(--gold);}
 
 <script>
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
+const MAKE_WEBHOOK = 'https://hook.eu1.make.com/0eh990n2nhqusgp8fw2g6k6r1job4rdu';
 
 document.addEventListener('DOMContentLoaded', function() {
   try {
@@ -170,13 +171,39 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('eventBox').style.display = 'flex';
     }
 
-    // Silently notify Michaela — best-effort, no error shown to customer
+    // Only fire integrations when a valid reference exists
+    if (!data.reference) return;
+
+    // Silently notify Michaela via Formspree
     const fd = new FormData();
     Object.entries(data).forEach(function(pair) { fd.append(pair[0], pair[1]); });
     fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
       body: fd,
       headers: { 'Accept': 'application/json' }
+    }).catch(function() {});
+
+    // Send to Make.com webhook
+    var now = new Date();
+    var date = String(now.getDate()).padStart(2, '0') + '/' +
+               String(now.getMonth() + 1).padStart(2, '0') + '/' +
+               now.getFullYear();
+
+    fetch(MAKE_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:        data.name        || '',
+        email:       data.email       || '',
+        phone:       data.phone       || '',
+        team:        data.team        || '',
+        age_bracket: data.age_bracket || '',
+        event:       data.event       || '',
+        reference:   data.reference,
+        amount_paid: '£26',
+        date:        date,
+        status:      'Paid'
+      })
     }).catch(function() {});
 
   } catch(e) {}
