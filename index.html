@@ -483,6 +483,9 @@ footer span{color:var(--gold);}
 
 <script>
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
+// Paste your Stripe Payment Link URL here after creating it in the Stripe dashboard.
+// In the Payment Link settings, set the success redirect URL to: https://[your-domain]/?success=true
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/REPLACE_WITH_YOUR_LINK';
 
 const EVENT_DATES = [
   new Date('2026-06-06T00:00:00+01:00'),
@@ -598,7 +601,7 @@ function checkStripeReturn() {
   history.replaceState({}, document.title, window.location.pathname + '#register');
 }
 
-async function handleSubmit() {
+function handleSubmit() {
   if (!document.getElementById('consent').checked) {
     alert('Please confirm consent before submitting.');
     return;
@@ -633,20 +636,9 @@ async function handleSubmit() {
   btn.textContent = 'Redirecting to payment…';
   btn.disabled = true;
 
-  try {
-    const response = await fetch('/.netlify/functions/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ eventName: eventValue, reference: ref, customerName: name, customerEmail: email }),
-    });
-    if (!response.ok) throw new Error('Session creation failed');
-    const { url } = await response.json();
-    window.location.href = url;
-  } catch (err) {
-    btn.textContent = 'Pay £26 deposit & secure your spot →';
-    btn.disabled = false;
-    alert('Something went wrong. Please try again or email michaela@captureeventsphotography.co.uk directly.');
-  }
+  window.location.href = STRIPE_PAYMENT_LINK
+    + '?prefilled_email=' + encodeURIComponent(email)
+    + '&client_reference_id=' + encodeURIComponent(ref);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
