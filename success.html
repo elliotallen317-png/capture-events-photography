@@ -150,7 +150,6 @@ footer span{color:var(--gold);}
 </footer>
 
 <script>
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
 const MAKE_WEBHOOK = 'https://hook.eu1.make.com/0eh990n2nhqusgp8fw2g6k6r1job4rdu';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -173,15 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Only fire integrations when a valid reference exists
     if (!data.reference) return;
-
-    // Silently notify Michaela via Formspree
-    const fd = new FormData();
-    Object.entries(data).forEach(function(pair) { fd.append(pair[0], pair[1]); });
-    fetch(FORMSPREE_ENDPOINT, {
-      method: 'POST',
-      body: fd,
-      headers: { 'Accept': 'application/json' }
-    }).catch(function() {});
 
     // Send to Make.com webhook
     var now = new Date();
