@@ -128,6 +128,9 @@ h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);line-
 .event-opt:hover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
 .event-opt.selected{border-color:var(--gold);background:rgba(201,168,76,0.08);}
 .event-opt.selected::after{content:'✓';position:absolute;top:6px;right:8px;font-size:10px;color:var(--gold);font-weight:700;}
+.event-opt.closed{opacity:0.5;cursor:not-allowed;border-color:rgba(26,22,18,0.08)!important;background:transparent!important;}
+.event-opt.closed:hover{border-color:rgba(26,22,18,0.08)!important;background:transparent!important;}
+.event-closed-badge{display:block;font-size:0.68rem;color:#999;font-weight:500;margin-top:0.35rem;}
 .event-date{font-size:0.72rem;color:var(--warm-gray);margin-bottom:0.2rem;}
 .event-name{font-size:0.82rem;font-weight:500;color:var(--dark);margin-bottom:0.2rem;}
 .event-loc{font-size:0.7rem;color:var(--warm-gray);}
@@ -144,6 +147,27 @@ h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);line-
 
 footer{background:var(--dark);color:rgba(255,255,255,0.4);text-align:center;padding:2rem;font-size:0.8rem;}
 footer span{color:var(--gold);}
+
+/* CONFIRMATION */
+.confirm-card{text-align:center;}
+.confirm-tick{width:56px;height:56px;background:rgba(90,158,90,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.4rem;color:#3A7A3A;}
+.confirm-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:0.5rem;}
+.confirm-card>p{font-size:0.9rem;color:var(--warm-gray);margin-bottom:1.75rem;line-height:1.6;}
+.confirm-ref-box{background:var(--cream);border:1.5px solid var(--gold);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;}
+.confirm-ref-label{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;}
+.confirm-ref{font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic;color:var(--dark);letter-spacing:0.03em;margin-bottom:0.3rem;}
+.confirm-ref-note{font-size:0.75rem;color:var(--warm-gray);}
+.confirm-payment{text-align:left;background:var(--cream);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+.confirm-payment h4{font-size:0.95rem;font-weight:500;margin-bottom:0.4rem;}
+.confirm-payment>p{font-size:0.83rem;color:var(--warm-gray);margin-bottom:1.25rem;line-height:1.6;}
+.bank-details{border-radius:8px;overflow:hidden;border:1px solid rgba(26,22,18,0.1);margin-bottom:1.25rem;background:var(--white);}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:0.65rem 1rem;font-size:0.85rem;border-bottom:1px solid rgba(26,22,18,0.07);}
+.bank-row:last-child{border-bottom:none;}
+.bank-row span{color:var(--warm-gray);}
+.bank-row strong{color:var(--dark);}
+.confirm-warning{background:rgba(201,168,76,0.1);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:0.75rem 1rem;font-size:0.8rem;color:var(--dark);line-height:1.5;}
+.confirm-footer{font-size:0.8rem;color:var(--warm-gray);line-height:1.6;margin-top:1.5rem;}
+.confirm-footer a{color:var(--gold);}
 
 @media(max-width:700px){
   .hero-content{grid-template-columns:1fr;}.hero-graphic{display:none;}
@@ -356,40 +380,41 @@ footer span{color:var(--gold);}
     <div class="section-label" style="text-align:center;">Secure your spot</div>
     <h2>Register your interest</h2>
     <p class="section-sub">Choose your upcoming event, fill in your details, and pay a small deposit to secure the shoot for your team — and lock in the £13 pre-registered price.</p>
-    <div class="form-card">
+    <form class="form-card" id="registrationForm" novalidate>
       <div class="form-group"><label>Select your event</label></div>
       <div class="event-grid">
         <div class="event-opt selected" onclick="selectEvent(this)">
-          <div class="event-date">Fri 6 Jun 2025</div>
+          <div class="event-date">Sat 6 Jun 2026</div>
           <div class="event-name">Theatre Royal</div>
           <div class="event-loc">Nottingham</div>
         </div>
         <div class="event-opt" onclick="selectEvent(this)">
-          <div class="event-date">Sat 7 Jun 2025</div>
+          <div class="event-date">Sun 7 Jun 2026</div>
           <div class="event-name">Theatre Royal</div>
           <div class="event-loc">Nottingham</div>
         </div>
         <div class="event-opt" onclick="selectEvent(this)">
-          <div class="event-date">Sun 8 Jun 2025</div>
+          <div class="event-date">Mon 8 Jun 2026</div>
           <div class="event-name">Notts County</div>
           <div class="event-loc">Meadow Lane, Nottingham</div>
         </div>
       </div>
+      <input type="hidden" id="selectedEvent" name="event" value="Theatre Royal - Sat 6 Jun 2026">
       <div class="form-row">
-        <div class="form-group"><label>Your name</label><input type="text" placeholder="Jane Smith"/></div>
-        <div class="form-group"><label>Email address</label><input type="email" placeholder="jane@email.com"/></div>
+        <div class="form-group"><label>Your name</label><input type="text" name="name" placeholder="Jane Smith" required/></div>
+        <div class="form-group"><label>Email address</label><input type="email" name="email" placeholder="jane@email.com" required/></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Phone number</label><input type="tel" placeholder="07700 900000"/></div>
-        <div class="form-group"><label>Team / club name</label><input type="text" placeholder="e.g. Leicester City U9s"/></div>
+        <div class="form-group"><label>Phone number</label><input type="tel" name="phone" placeholder="07700 900000"/></div>
+        <div class="form-group"><label>Team / club name</label><input type="text" name="team" placeholder="e.g. Leicester City U9s"/></div>
       </div>
       <div class="form-group">
         <label>Approximate number of players</label>
-        <select><option value="">Select...</option><option>Under 10 players</option><option>10–15 players</option><option>16–20 players</option><option>20+ players</option></select>
+        <select name="players"><option value="">Select...</option><option>Under 10 players</option><option>10–15 players</option><option>16–20 players</option><option>20+ players</option></select>
       </div>
       <div class="form-group">
         <label>Your role</label>
-        <select><option value="">Select...</option><option>Team organiser / coach</option><option>Parent / guardian</option></select>
+        <select name="role"><option value="">Select...</option><option>Team organiser / coach</option><option>Parent / guardian</option></select>
       </div>
       <div class="deposit-box">
         <div class="deposit-label">Deposit to secure your spot &amp; lock in £13 price<strong>£10.00</strong></div>
@@ -399,23 +424,187 @@ footer span{color:var(--gold);}
         <input type="checkbox" id="consent"/>
         <label for="consent">I confirm I am a parent, guardian, or authorised team organiser, and I consent to Capture Events Photography photographing the children at this event. Photos will only be shared with parents who place an order. I have read the <a href="#" style="color:var(--gold);">privacy policy</a>.</label>
       </div>
-      <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Pay £10 deposit &amp; register interest →</button>
+      <button class="submit-btn" id="submitBtn" type="button" onclick="handleSubmit()">Pay £10 deposit &amp; register interest →</button>
+    </form>
+
+    <div class="form-card confirm-card" id="confirmCard" style="display:none;">
+      <div class="confirm-tick">✓</div>
+      <h3>You're registered!</h3>
+      <p>Thanks, <strong id="confirmName"></strong>. Your spot is reserved for <strong id="confirmEvent"></strong>. Please complete your £10 deposit within 24 hours to secure it.</p>
+
+      <div class="confirm-ref-box">
+        <div class="confirm-ref-label">Your reference number</div>
+        <div class="confirm-ref" id="confirmRef"></div>
+        <div class="confirm-ref-note">Use this as your payment reference — it helps us match your deposit to your registration.</div>
+      </div>
+
+      <div class="confirm-payment">
+        <h4>Pay your £10 deposit by bank transfer</h4>
+        <p>Transfer exactly £10.00 to the account below, using your reference number. Your registration will be confirmed once we receive payment.</p>
+        <div class="bank-details">
+          <div class="bank-row"><span>Account name</span><strong>Capture Events Photography Ltd</strong></div>
+          <div class="bank-row"><span>Sort code</span><strong>60-83-71</strong></div>
+          <div class="bank-row"><span>Account number</span><strong>12878168</strong></div>
+          <div class="bank-row"><span>Reference</span><strong id="confirmRefBank"></strong></div>
+          <div class="bank-row"><span>Amount</span><strong>£10.00</strong></div>
+        </div>
+        <div class="confirm-warning">If we don't receive your deposit within 24 hours, your spot may be released to another team. The £10 is fully deducted from your final balance after the shoot.</div>
+      </div>
+
+      <p class="confirm-footer">Questions? Email <a href="mailto:michaela@captureeventsphotography.co.uk">michaela@captureeventsphotography.co.uk</a></p>
     </div>
   </div>
 </div>
 
 <footer>
-  <p>© 2025 <span>Capture Events Photography</span> · All rights reserved · Questions? Email <span>hello@captureeventsphoto.co.uk</span></p>
+  <p>© 2025 <span>Capture Events Photography</span> · All rights reserved · Questions? Email <span>michaela@captureeventsphotography.co.uk</span></p>
 </footer>
 
 <script>
-function selectEvent(el){document.querySelectorAll('.event-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');}
-function handleSubmit(){
-  if(!document.getElementById('consent').checked){alert('Please confirm consent before submitting.');return;}
-  const btn=document.getElementById('submitBtn');
-  btn.textContent='✓ Interest registered! We\'ll be in touch to confirm your booking.';
-  btn.disabled=true;
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
+
+// Each event's start datetime in BST (UTC+1). Registration closes 72 hours before.
+const EVENT_DATES = [
+  new Date('2026-06-06T00:00:00+01:00'),
+  new Date('2026-06-07T00:00:00+01:00'),
+  new Date('2026-06-08T00:00:00+01:00'),
+];
+const DEADLINE_MS = 72 * 60 * 60 * 1000;
+
+function isOpen(eventDate) {
+  return Date.now() < eventDate.getTime() - DEADLINE_MS;
 }
+
+function initDeadlines() {
+  const opts = document.querySelectorAll('.event-opt');
+  let firstOpenIdx = -1;
+
+  opts.forEach(function(opt, i) {
+    if (!isOpen(EVENT_DATES[i])) {
+      opt.classList.add('closed');
+      opt.classList.remove('selected');
+      const badge = document.createElement('div');
+      badge.className = 'event-closed-badge';
+      badge.textContent = 'Registration closed';
+      opt.appendChild(badge);
+    } else if (firstOpenIdx === -1) {
+      firstOpenIdx = i;
+    }
+  });
+
+  // If the pre-selected event is now closed, select the first open one
+  const currentSelected = document.querySelector('.event-opt.selected');
+  if (!currentSelected || currentSelected.classList.contains('closed')) {
+    document.querySelectorAll('.event-opt').forEach(function(o) { o.classList.remove('selected'); });
+    if (firstOpenIdx !== -1) {
+      const openOpt = opts[firstOpenIdx];
+      openOpt.classList.add('selected');
+      const date = openOpt.querySelector('.event-date').textContent;
+      const name = openOpt.querySelector('.event-name').textContent;
+      document.getElementById('selectedEvent').value = name + ' - ' + date;
+    } else {
+      document.getElementById('selectedEvent').value = '';
+      showAllClosed();
+    }
+  }
+}
+
+function showAllClosed() {
+  const form = document.getElementById('registrationForm');
+  form.style.display = 'none';
+  const msg = document.createElement('div');
+  msg.className = 'form-card';
+  msg.style.cssText = 'text-align:center;padding:2.5rem;';
+  msg.innerHTML = '<div style="font-size:2rem;margin-bottom:1rem;">📷</div>'
+    + '<h3 style="font-family:\'Playfair Display\',serif;font-size:1.4rem;margin-bottom:0.75rem;">Registration is now closed</h3>'
+    + '<p style="font-size:0.9rem;color:var(--warm-gray);line-height:1.7;margin-bottom:1.25rem;">Registration for all upcoming events has now closed. If you have any questions, please get in touch.</p>'
+    + '<p style="font-size:0.85rem;"><a href="mailto:michaela@captureeventsphotography.co.uk" style="color:var(--gold);">michaela@captureeventsphotography.co.uk</a></p>';
+  form.parentNode.insertBefore(msg, form.nextSibling);
+}
+
+function selectEvent(el) {
+  if (el.classList.contains('closed')) return;
+  document.querySelectorAll('.event-opt').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  const date = el.querySelector('.event-date').textContent;
+  const name = el.querySelector('.event-name').textContent;
+  document.getElementById('selectedEvent').value = name + ' - ' + date;
+}
+
+const EVENT_CODES = {
+  'Theatre Royal - Sat 6 Jun 2026': 'TR6JUN',
+  'Theatre Royal - Sun 7 Jun 2026': 'TR7JUN',
+  'Notts County - Mon 8 Jun 2026':  'NC8JUN',
+};
+
+function generateRef(eventValue) {
+  const code = EVENT_CODES[eventValue] || 'EVT';
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let rand = '';
+  for (let i = 0; i < 4; i++) {
+    rand += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return 'CEP-' + code + '-' + rand;
+}
+
+function showConfirmation(name, email, eventValue, ref) {
+  document.getElementById('registrationForm').style.display = 'none';
+  const card = document.getElementById('confirmCard');
+  document.getElementById('confirmName').textContent = name;
+  document.getElementById('confirmEvent').textContent = eventValue;
+  document.getElementById('confirmRef').textContent = ref;
+  document.getElementById('confirmRefBank').textContent = ref;
+  card.style.display = 'block';
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function handleSubmit() {
+  if (!document.getElementById('consent').checked) {
+    alert('Please confirm consent before submitting.');
+    return;
+  }
+  const form = document.getElementById('registrationForm');
+  const name = form.querySelector('[name="name"]').value.trim();
+  const email = form.querySelector('[name="email"]').value.trim();
+  if (!name || !email) {
+    alert('Please enter your name and email address.');
+    return;
+  }
+  const eventValue = document.getElementById('selectedEvent').value;
+  if (!eventValue) {
+    alert('Please select an available event.');
+    return;
+  }
+  const ref = generateRef(eventValue);
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const formData = new FormData(form);
+  formData.append('reference', ref);
+
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      showConfirmation(name, email, eventValue, ref);
+    } else {
+      btn.textContent = 'Pay £10 deposit & register interest →';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or email michaela@captureeventsphotography.co.uk directly.');
+    }
+  } catch (err) {
+    btn.textContent = 'Pay £10 deposit & register interest →';
+    btn.disabled = false;
+    alert('Something went wrong. Please try again or email michaela@captureeventsphotography.co.uk directly.');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initDeadlines);
 </script>
 </body>
 </html>
