@@ -7,14 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 :root{--cream:#F5F1E8;--dark:#1A1A1A;--gold:#D4AF37;--gold-light:#E8D48A;--warm-gray:#8C8680;--white:#fff;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);font-size:16px;line-height:1.6;}
 
 /* NAV */
 .site-header{position:sticky;top:0;z-index:100;}
-.mobile-banner{display:none;background:var(--dark);text-align:center;padding:0.6rem 1.25rem;border-bottom:1px solid rgba(212,175,55,0.18);}
-.mobile-banner-name{font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;color:var(--gold);letter-spacing:0.04em;line-height:1.3;}
-.mobile-banner-tag{font-size:0.62rem;letter-spacing:0.11em;text-transform:uppercase;color:rgba(212,175,55,0.55);margin-top:0.15rem;}
+.mobile-banner{display:none;background:var(--dark);padding:0.55rem 0.75rem;border-bottom:1px solid rgba(212,175,55,0.15);}
+.banner-nav{display:flex;gap:0.4rem;justify-content:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.banner-nav::-webkit-scrollbar{display:none;}
+.banner-pill{font-size:0.7rem;font-weight:500;letter-spacing:0.03em;padding:0.28rem 0.75rem;border-radius:100px;border:1px solid rgba(212,175,55,0.35);color:rgba(212,175,55,0.8);text-decoration:none;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;}
+.banner-pill:hover,.banner-pill:active{background:rgba(212,175,55,0.12);color:var(--gold);border-color:rgba(212,175,55,0.6);}
+.banner-pill--cta{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:600;}
+.banner-pill--cta:hover,.banner-pill--cta:active{background:var(--gold-light);color:var(--dark);}
 nav{background:rgba(245,241,232,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(26,26,26,0.1);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;text-decoration:none;}
 .logo-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);}
@@ -211,6 +216,9 @@ footer span{color:var(--gold);}
   .event-opt.selected::after{position:static;margin-left:0.5rem;flex-shrink:0;}
   .event-date{margin-bottom:0;}
   .event-name{margin-bottom:0;font-size:0.88rem;}
+  /* Closed cards: stack vertically so the badge has room */
+  .event-opt.closed{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0.12rem;padding:0.8rem 0.75rem;}
+  .event-opt.closed .event-closed-badge{margin-top:0.1rem;font-size:0.7rem;color:var(--warm-gray);}
   /* Prevent iOS Safari zoom on input focus */
   .form-group input,.form-group select{font-size:1rem;}
   .deposit-box{flex-direction:column;align-items:flex-start;gap:0.6rem;}
@@ -227,8 +235,12 @@ footer span{color:var(--gold);}
 
 <header class="site-header">
   <div class="mobile-banner">
-    <div class="mobile-banner-name">Capture Events Photography</div>
-    <div class="mobile-banner-tag">Every moment, perfectly captured</div>
+    <nav class="banner-nav">
+      <a href="#how" class="banner-pill">How it works</a>
+      <a href="#pricing" class="banner-pill">Pricing</a>
+      <a href="#faq" class="banner-pill">FAQs</a>
+      <a href="#register" class="banner-pill banner-pill--cta">Register</a>
+    </nav>
   </div>
   <nav>
     <a href="#" class="logo">
@@ -497,7 +509,7 @@ footer span{color:var(--gold);}
 
 <script>
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
-// In your Stripe Payment Link settings, set the success redirect URL to: https://[your-domain]/success.html
+// In your Stripe Payment Link settings, set the success redirect URL to: https://captureeventsphotography.co.uk/success.html
 const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_3cIeVe4ks4iz1JLfc87kc00';
 
 const EVENT_DATES = [
@@ -593,7 +605,7 @@ function checkStripeReturn() {
   // Stripe should redirect directly to success.html — this is a safety
   // fallback in case the payment link is still configured to return here.
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
-    window.location.replace('success.html');
+    window.location.replace('/success.html');
   }
 }
 
