@@ -82,13 +82,6 @@ h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);line-
 .badge-green{background:rgba(90,158,90,0.12);color:#3A7A3A;}
 .badge-gold{background:rgba(212,175,55,0.15);color:#7A5C1A;}
 
-/* DOWNLOAD BAND */
-.download-band{background:var(--dark);padding:3rem;}
-.download-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
-.download-text h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--white);margin-bottom:0.4rem;}
-.download-text p{color:rgba(255,255,255,0.5);font-size:0.88rem;max-width:520px;line-height:1.6;}
-.btn-download{display:inline-flex;align-items:center;gap:0.6rem;background:var(--gold);color:var(--dark);padding:0.8rem 1.5rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background 0.2s;}
-.btn-download:hover{background:var(--gold-light);}
 
 /* NOTE BOX */
 .note-box{background:rgba(212,175,55,0.08);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin-top:2.5rem;font-size:0.88rem;color:var(--dark);line-height:1.6;}
@@ -199,12 +192,7 @@ footer span{color:var(--gold);}
   .pricing-section{padding:3rem 1.25rem;}
   .pricing-callout{grid-template-columns:1fr;margin-top:1.5rem;}
 
-  /* DOWNLOAD BAND */
-  .download-band{padding:2rem 1.25rem;}
-  .download-inner{flex-direction:column;}
-  .btn-download{width:100%;justify-content:center;}
-
-  /* FAQ */
+/* FAQ */
   .faq-section{padding:3rem 1.25rem;}
   .faq-grid{grid-template-columns:1fr;}
 
@@ -331,7 +319,7 @@ footer span{color:var(--gold);}
     <div class="step-card">
       <div class="step-num">03</div>
       <h3>Team orders together</h3>
-      <p>The team organiser uses our simple order form to collect each player's name and preferred thumbnail number. Photos and frames are handed out or posted as arranged.</p>
+      <p>After photos are taken, players choose their preferred thumbnail. The team organiser collects each player's name and choice, then photos and frames are handed out or posted as arranged.</p>
     </div>
   </div>
 
@@ -353,7 +341,7 @@ footer span{color:var(--gold);}
   </div>
 
   <div class="note-box">
-    <strong>Please note:</strong> Orders are placed as a team using our order form — not individually on the day. The team organiser collects each player's name and thumbnail number preference. Download the order form below to familiarise yourself ahead of the event.
+    <strong>Please note:</strong> Orders are placed as a team — not individually on the day. The team organiser is responsible for collecting every player's name and thumbnail choice on the day.
   </div>
 </div>
 
@@ -382,19 +370,6 @@ footer span{color:var(--gold);}
   </div>
 </div>
 
-<!-- DOWNLOAD BAND -->
-<div class="download-band">
-  <div class="download-inner">
-    <div class="download-text">
-      <h3>On-the-day order form</h3>
-      <p>Download and print our team order sheet ahead of the event so ordering on the day is quick and stress-free. The form includes space for player names, thumbnail numbers, and payment tracking.</p>
-    </div>
-    <a href="capture_events_photography_order_form.pdf" download class="btn-download">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download order form (PDF)
-    </a>
-  </div>
-</div>
 
 <!-- FAQ -->
 <div class="faq-section" id="faq">
@@ -408,7 +383,7 @@ footer span{color:var(--gold);}
       </div>
       <div class="faq-item">
         <div class="faq-q">How does the team ordering system work?</div>
-        <div class="faq-a">This is a team-based ordering system — we don't take individual orders separately. Whoever registers on behalf of the team is responsible for collecting every player's order on the day. After photos are taken, players choose their preferred thumbnail number. The team organiser records each player's name and thumbnail choice on our order form and hands it back with payment. It's important that the registered contact is present and prepared on the day.</div>
+        <div class="faq-a">This is a team-based ordering system — we don't take individual orders separately. Whoever registers on behalf of the team is responsible for collecting every player's order on the day. After photos are taken, players choose their preferred thumbnail number. The team organiser records each player's name and choice and hands it back with payment. It's important that the registered contact is present and prepared on the day.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Can photos be ordered after the event?</div>
@@ -499,7 +474,7 @@ footer span{color:var(--gold);}
         <ul>
           <li>A confirmation email will be sent to <strong id="confirmEmail"></strong></li>
           <li>Our photographer will be at your event on the day</li>
-          <li><a href="capture_events_photography_order_form.pdf" download>Download the order form</a> and bring it on the day to collect your team's choices</li>
+          <li>On the day, your team organiser will be guided through collecting everyone's choices</li>
         </ul>
       </div>
 
