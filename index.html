@@ -11,9 +11,14 @@
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);font-size:16px;line-height:1.6;}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(245,241,232,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(26,26,26,0.1);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;}
+.site-header{position:sticky;top:0;z-index:100;}
+.mobile-banner{display:none;background:var(--dark);text-align:center;padding:0.6rem 1.25rem;border-bottom:1px solid rgba(212,175,55,0.18);}
+.mobile-banner-name{font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;color:var(--gold);letter-spacing:0.04em;line-height:1.3;}
+.mobile-banner-tag{font-size:0.62rem;letter-spacing:0.11em;text-transform:uppercase;color:rgba(212,175,55,0.55);margin-top:0.15rem;}
+nav{background:rgba(245,241,232,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(26,26,26,0.1);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;text-decoration:none;}
-.logo-img{height:44px;width:auto;display:block;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);}
+.logo-text em{font-style:italic;color:var(--gold);}
 .nav-links{display:flex;gap:2rem;list-style:none;}
 .nav-links a{text-decoration:none;color:var(--warm-gray);font-size:0.88rem;transition:color 0.2s;}
 .nav-links a:hover{color:var(--dark);}
@@ -37,7 +42,7 @@ h1 em{font-style:italic;color:var(--gold);}
 
 /* HERO LOGO */
 .hero-graphic{display:flex;align-items:center;justify-content:center;}
-.hero-logo-img{width:300px;max-width:100%;height:auto;border-radius:16px;}
+.hero-logo-img{width:300px;max-width:100%;height:auto;border-radius:16px;mix-blend-mode:lighten;}
 
 /* STATS BAR */
 .stats-bar{background:rgba(212,175,55,0.08);border-top:1px solid rgba(212,175,55,0.2);display:flex;justify-content:center;}
@@ -160,9 +165,12 @@ footer span{color:var(--gold);}
 .confirm-footer a{color:var(--gold);}
 
 @media(max-width:700px){
+  /* MOBILE BANNER */
+  .mobile-banner{display:block;}
+
   /* NAV */
   nav{padding:0.875rem 1.25rem;}
-  .logo{font-size:1rem;}
+  .logo-text{font-size:0.9rem;}
   .nav-links{display:none;}
   .nav-cta{display:none;}
 
@@ -217,18 +225,24 @@ footer span{color:var(--gold);}
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">
-    <img src="images/logo-light.png" alt="Capture Events Photography" class="logo-img">
-  </a>
-  <ul class="nav-links">
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#faq">FAQs</a></li>
-    <li><a href="#register">Register interest</a></li>
-  </ul>
-  <a href="#register" class="nav-cta">Register interest</a>
-</nav>
+<header class="site-header">
+  <div class="mobile-banner">
+    <div class="mobile-banner-name">Capture Events Photography</div>
+    <div class="mobile-banner-tag">Every moment, perfectly captured</div>
+  </div>
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-text">Capture Events <em>Photography</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQs</a></li>
+      <li><a href="#register">Register interest</a></li>
+    </ul>
+    <a href="#register" class="nav-cta">Register interest</a>
+  </nav>
+</header>
 
 <!-- HERO -->
 <div class="hero-wrapper">
@@ -405,7 +419,7 @@ footer span{color:var(--gold);}
     <div class="section-label" style="text-align:center;">Secure your spot</div>
     <h2>Register your interest</h2>
     <p class="section-sub">Choose your upcoming event, fill in your details, and pay a small deposit to secure the shoot for your team — and lock in the £13 pre-registered price.</p>
-    <form class="form-card" id="registrationForm" novalidate>
+    <form class="form-card" id="registrationForm" novalidate onsubmit="return false;">
       <div class="form-group"><label>Select your event</label></div>
       <div class="event-grid">
         <div class="event-opt selected" onclick="selectEvent(this)">
@@ -621,24 +635,30 @@ function handleSubmit() {
 
   const ref = generateRef(eventValue);
 
-  localStorage.setItem('cep_pending_reg', JSON.stringify({
-    name:      name,
-    email:     email,
-    phone:     form.querySelector('[name="phone"]').value.trim(),
-    team:      form.querySelector('[name="team"]').value.trim(),
-    players:   form.querySelector('[name="players"]').value,
-    role:      form.querySelector('[name="role"]').value,
-    event:     eventValue,
-    reference: ref,
-  }));
+  try {
+    localStorage.setItem('cep_pending_reg', JSON.stringify({
+      name:      name,
+      email:     email,
+      phone:     form.querySelector('[name="phone"]').value.trim(),
+      team:      form.querySelector('[name="team"]').value.trim(),
+      players:   form.querySelector('[name="players"]').value,
+      role:      form.querySelector('[name="role"]').value,
+      event:     eventValue,
+      reference: ref,
+    }));
+  } catch(e) {
+    // localStorage unavailable (e.g. private browsing on some browsers) — proceed anyway
+  }
 
   const btn = document.getElementById('submitBtn');
   btn.textContent = 'Redirecting to payment…';
   btn.disabled = true;
 
-  window.location.href = STRIPE_PAYMENT_LINK
+  window.location.assign(
+    STRIPE_PAYMENT_LINK
     + '?prefilled_email=' + encodeURIComponent(email)
-    + '&client_reference_id=' + encodeURIComponent(ref);
+    + '&client_reference_id=' + encodeURIComponent(ref)
+  );
 }
 
 document.addEventListener('DOMContentLoaded', function() {
