@@ -495,7 +495,9 @@ footer span{color:var(--gold);}
 
 <script>
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
-// In your Stripe Payment Link settings, set the success redirect URL to: https://captureeventsphotography.co.uk/success.html
+// In your Stripe Payment Link settings:
+//   Success redirect URL: https://captureeventsphotography.co.uk/success.html
+//   Cancel redirect URL:  https://captureeventsphotography.co.uk/failed.html
 const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_3cIeVe4ks4iz1JLfc87kc00';
 
 const EVENT_DATES = [
