@@ -497,8 +497,7 @@ footer span{color:var(--gold);}
 
 <script>
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqeozgba';
-// Paste your Stripe Payment Link URL here after creating it in the Stripe dashboard.
-// In the Payment Link settings, set the success redirect URL to: https://[your-domain]/?success=true
+// In your Stripe Payment Link settings, set the success redirect URL to: https://[your-domain]/success.html
 const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_3cIeVe4ks4iz1JLfc87kc00';
 
 const EVENT_DATES = [
@@ -591,28 +590,11 @@ function showConfirmation(name, email, eventValue, ref) {
 }
 
 function checkStripeReturn() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success') !== 'true') return;
-
-  const storedStr = localStorage.getItem('cep_pending_reg');
-  const stored = storedStr ? JSON.parse(storedStr) : null;
-  localStorage.removeItem('cep_pending_reg');
-
-  const ref        = (stored && stored.reference) || decodeURIComponent(params.get('ref') || '—');
-  const name       = (stored && stored.name)      || decodeURIComponent(params.get('name') || '');
-  const email      = (stored && stored.email)     || '';
-  const eventValue = (stored && stored.event)     || '';
-
-  showConfirmation(name, email, eventValue, ref);
-
-  if (stored) {
-    const fd = new FormData();
-    Object.entries(stored).forEach(function(pair) { fd.append(pair[0], pair[1]); });
-    fetch(FORMSPREE_ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
-      .catch(function() {});
+  // Stripe should redirect directly to success.html — this is a safety
+  // fallback in case the payment link is still configured to return here.
+  if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    window.location.replace('success.html');
   }
-
-  history.replaceState({}, document.title, window.location.pathname + '#register');
 }
 
 function handleSubmit() {
